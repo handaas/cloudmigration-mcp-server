@@ -60,7 +60,7 @@ def call_api(product_id: str, params: dict) -> dict:
     url = f'https://console.handaas.com/api/v1/integrator/call_api/{INTEGRATOR_ID}'
     try:
         response = requests.post(url, data=call_params)
-        return response.json().get("data", "查询为空")
+        return response.json().get("data", None) or response.json().get("msgCN", None)
     except Exception as e:
         return "查询失败"
     
@@ -106,7 +106,7 @@ def cloudmigration_cloud_assets(matchKeyword: str, keywordType: str = None) -> d
 
 
 @mcp.tool()
-def cloudmigration_fuzzy_search(matchKeyword: str, pageIndex: int = None, pageSize: int = None) -> dict:
+def cloudmigration_fuzzy_search(matchKeyword: str, pageIndex: int = 1, pageSize: int = None) -> dict:
     """
     该接口的功能是根据提供的企业名称、人名、品牌、产品、岗位等关键词模糊查询相关企业列表。返回匹配的企业列表及其详细信息，用于查找和识别特定的企业信息。
 
@@ -163,14 +163,14 @@ def cloudmigration_fuzzy_search(matchKeyword: str, pageIndex: int = None, pageSi
 
 
 @mcp.tool()
-def cloudmigration_domain_info(matchKeyword: str, pageIndex: int = None, keywordType: str = None, pageSize: int = None) -> dict:
+def cloudmigration_domain_info(matchKeyword: str, pageIndex: int = 1, keywordType: str = None, pageSize: int = None) -> dict:
     """
     该接口的功能是根据输入的企业标识信息查询与该企业相关的所有已注册的域名信息，包括域名名称、对应网址、审核时间等详情。该接口可能适用于企业想要管理自己的互联网资产时，通过将其名下的域名和网站信息整理为报告，或者企业或第三方需要进行域名合规性检查、对网站进行备案审查时，快速获取相关数据信息，以此确认网站是否为企业的官方域名，确保其品牌安全。
 
 
     请求参数:
     - matchKeyword: 匹配关键词 类型：string - 企业名称/注册号/统一社会信用代码/企业id，如果没有企业全称则先调取fuzzy_search接口获取企业全称。
-    - pageIndex: 页码 类型：int
+    - pageIndex: 页码 类型：int 
     - keywordType: 主体类型 类型：select - 主体类型枚举（name：企业名称，nameId：企业id，regNumber：注册号，socialCreditCode：统一社会信用代码)
     - pageSize: 分页大小 类型：int - 一页最多获取50条数据
 
