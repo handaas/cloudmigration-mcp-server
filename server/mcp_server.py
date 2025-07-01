@@ -118,7 +118,6 @@ def cloudmigration_fuzzy_search(matchKeyword: str, pageIndex: int = 1, pageSize:
 
     返回参数:
     - total: 总数 类型：int
-    - resultList: 结果列表 类型：list of dict
     - annualTurnover: 年营业额 类型：string
     - formerNames: 曾用名 类型：list of string
     - address: 注册地址 类型：string
@@ -182,7 +181,6 @@ def cloudmigration_domain_info(matchKeyword: str, pageIndex: int = 1, keywordTyp
     - domainUrl: 网址 类型：string
     - total: 总数 类型：int
     - filingAuditTime: 审核时间 类型：string
-    - resultList: 列表结果 类型：list of dict
     - isHomePage: 是否官网 类型：int
     - websiteRecord: 网站备案号 类型：string
     """
