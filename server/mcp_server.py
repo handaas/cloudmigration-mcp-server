@@ -9,7 +9,7 @@ import sys
 
 load_dotenv()
 
-mcp = FastMCP("上云大数据", instructions="上云大数据",dependencies=["python-dotenv", "requests"])
+mcp = FastMCP("上云大数据", instructions="上云大数据", dependencies=["python-dotenv", "requests"])
 
 INTEGRATOR_ID = os.environ.get("INTEGRATOR_ID")
 SECRET_ID = os.environ.get("SECRET_ID")
@@ -85,8 +85,8 @@ def cloudmigration_cloud_assets(matchKeyword: str, keywordType: str = None) -> d
     - subDomainNum: 子域名数量 类型：int
     - hasOverseasCloudService: 有无海外服务器 类型：int - 0:无 1：有
     - cloudServiceProviderRatio: 云服务厂商比例 类型：list of dict
-    - ratio: 云服务厂商比例 类型：float
-    - cloudService: 云服务商名称 类型：string
+        - ratio: 云服务厂商比例 类型：float
+        - cloudService: 云服务商名称 类型：string
     - cloudServerNumInterval: 云用量范围 类型：string
     - hasCdn: 有无使用CDN 类型：int - 0:无 1：有
     - cdnServerNum: CDN使用规模 类型：int
@@ -110,49 +110,49 @@ def cloudmigration_cloud_assets(matchKeyword: str, keywordType: str = None) -> d
 
 
 @mcp.tool()
-def cloudmigration_fuzzy_search(matchKeyword: str, pageIndex: int = 1, pageSize: int = None) -> dict:
+def cloudmigration_fuzzy_search(matchKeyword: str, pageIndex: int = 1, pageSize: int = 50) -> dict:
     """
     该接口的功能是根据提供的企业名称、人名、品牌、产品、岗位等关键词模糊查询相关企业列表。返回匹配的企业列表及其详细信息，用于查找和识别特定的企业信息。
 
 
     请求参数:
     - matchKeyword: 匹配关键词 类型：string - 查询各类信息包含匹配关键词的企业
-    - pageIndex: 分页开始位置 类型：int
-    - pageSize: 分页结束位置 类型：int - 一页最多获取50条数据
+    - pageIndex: 分页开始位置 类型：int - 默认从1开始
+    - pageSize: 分页结束位置 类型：int - 一页最多获取50条数据, 不能超过50, 超过50的统一用50代替
 
     返回参数:
     - total: 总数 类型：int
-    - annualTurnover: 年营业额 类型：string
-    - formerNames: 曾用名 类型：list of string
-    - address: 注册地址 类型：string
-    - foundTime: 成立时间 类型：string
-    - enterpriseType: 企业主体类型 类型：string
-    - legalRepresentative: 法定代表人 类型：string
-    - homepage: 企业官网 类型：string
-    - legalRepresentativeId: 法定代表人id 类型：string
-    - prmtKeys: 推广关键词 类型：list of string
-    - operStatus: 企业状态 类型：string
-    - logo: 企业logo 类型：string
-    - nameId: 企业id 类型：string
-    - regCapitalCoinType: 注册资本币种 类型：string
-    - regCapitalValue: 注册资本金额 类型：int
-    - name: 企业名称 类型：string
-    - catchReason: 命中原因 类型：dict
-    - catchReason.name: 企业名称 类型：list of string
-    - catchReason.formerNames: 曾用名 类型：list of string
-    - catchReason.holderList: 股东 类型：list of string
-    - catchReason.recruitingName: 招聘岗位 类型：list of string
-    - catchReason.address: 地址 类型：list of string
-    - catchReason.operBrandList: 品牌 类型：list of string
-    - catchReason.goodsNameList: 产品名称 类型：list of string
-    - catchReason.phoneList: 固话 类型：list of string
-    - catchReason.emailList: 邮箱 类型：list of string
-    - catchReason.mobileList: 手机 类型：list of string
-    - catchReason.patentNameList: 专利 类型：list of string
-    - catchReason.certNameList: 资质证书 类型：list of string
-    - catchReason.prmtKeys: 推广关键词 类型：list of string
-    - catchReason.socialCreditCode: 统一社会信用代码 类型：list of string
-
+    - resultList:查询返回企业信息列表 类型：list of dict:
+        - annualTurnover: 年营业额 类型：string
+        - formerNames: 曾用名 类型：list of string
+        - address: 注册地址 类型：string
+        - foundTime: 成立时间 类型：string
+        - enterpriseType: 企业主体类型 类型：string
+        - legalRepresentative: 法定代表人 类型：string
+        - legalRepresentativeId: 法定代表人id 类型：string
+        - homepage: 企业官网 类型：string
+        - prmtKeys: 推广关键词 类型：list of string
+        - operStatus: 企业状态 类型：string
+        - logo: 企业logo 类型：string
+        - nameId: 企业id 类型：string
+        - regCapitalCoinType: 注册资本币种 类型：string
+        - regCapitalValue: 注册资本金额 类型：int
+        - name: 企业名称 类型：string
+        - catchReason: 命中原因 类型：dict
+            - catchReason.name: 企业名称 类型：list of string
+            - catchReason.formerNames: 曾用名 类型：list of string
+            - catchReason.holderList: 股东 类型：list of string
+            - catchReason.recruitingName: 招聘岗位 类型：list of string
+            - catchReason.address: 地址 类型：list of string
+            - catchReason.operBrandList: 品牌 类型：list of string
+            - catchReason.goodsNameList: 产品名称 类型：list of string
+            - catchReason.phoneList: 固话 类型：list of string
+            - catchReason.emailList: 邮箱 类型：list of string
+            - catchReason.mobileList: 手机 类型：list of string
+            - catchReason.patentNameList: 专利 类型：list of string
+            - catchReason.certNameList: 资质证书 类型：list of string
+            - catchReason.prmtKeys: 推广关键词 类型：list of string
+            - catchReason.socialCreditCode: 统一社会信用代码 类型：list of string
     """
     # 构建请求参数
     params = {
@@ -169,7 +169,7 @@ def cloudmigration_fuzzy_search(matchKeyword: str, pageIndex: int = 1, pageSize:
 
 
 @mcp.tool()
-def cloudmigration_domain_info(matchKeyword: str, pageIndex: int = 1, keywordType: str = None, pageSize: int = None) -> dict:
+def cloudmigration_domain_info(matchKeyword: str, pageIndex: int = 1, keywordType: str = None, pageSize: int = 10) -> dict:
     """
     该接口的功能是根据输入的企业标识信息查询与该企业相关的所有已注册的域名信息，包括域名名称、对应网址、审核时间等详情。该接口可能适用于企业想要管理自己的互联网资产时，通过将其名下的域名和网站信息整理为报告，或者企业或第三方需要进行域名合规性检查、对网站进行备案审查时，快速获取相关数据信息，以此确认网站是否为企业的官方域名，确保其品牌安全。
 
@@ -181,12 +181,13 @@ def cloudmigration_domain_info(matchKeyword: str, pageIndex: int = 1, keywordTyp
     - pageSize: 分页大小 类型：int - 一页最多获取50条数据
 
     返回参数:
-    - domainName: 域名名称 类型：string
-    - domainUrl: 网址 类型：string
+    - resultList: 列表结果 类型：list of dict
+        - domainUrl: 网址 类型：string
+        - filingAuditTime: 审核时间 类型：string
+        - isHomePage: 是否官网 类型：int
+        - websiteRecord: 网站备案号 类型：string
+        - domainName: 域名名称 类型：string
     - total: 总数 类型：int
-    - filingAuditTime: 审核时间 类型：string
-    - isHomePage: 是否官网 类型：int
-    - websiteRecord: 网站备案号 类型：string
     """
     # 构建请求参数
     params = {
